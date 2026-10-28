@@ -1,11 +1,11 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Taormina · Mom's 60th</title>
+<title>Sicily · Six Beautiful Days</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{--sea:#0e5a7a;--terra:#c0613a;--cream:#fbf6ee;--ink:#1d1d1f}
 *{box-sizing:border-box;margin:0}body{font-family:Inter,system-ui,sans-serif;background:var(--cream);color:var(--ink)}
 h1,h2,h3{font-family:'Playfair Display',serif}
-.hero{height:88vh;min-height:520px;background:linear-gradient(to bottom,#0003,#000a),url(img/villa-a01.jpg) center/cover;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;padding:28px}
+.hero{height:88vh;min-height:520px;background:linear-gradient(to bottom,#0003,#000a),url(img/sandomenico-view.jpg) center/cover;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;padding:28px}
 .hero h1{font-size:2.6rem;line-height:1.05}.hero p{margin-top:10px;font-size:1.05rem;opacity:.95}
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.chip{background:#fff3;backdrop-filter:blur(6px);padding:6px 12px;border-radius:99px;font-size:.85rem}
 section{padding:34px 0 8px}section>h2{padding:0 20px;font-size:1.7rem;margin-bottom:14px}
@@ -26,7 +26,8 @@ section{padding:34px 0 8px}section>h2{padding:0 20px;font-size:1.7rem;margin-bot
 .est{display:inline-block;background:#fde7c8;color:#8a4b00;font-size:.7rem;font-weight:600;padding:2px 7px;border-radius:6px;margin-left:4px;vertical-align:middle}
 .fly .est{background:#fff3;color:#fff}
 .map{position:relative;margin:0 20px;border-radius:20px;overflow:hidden;box-shadow:0 6px 18px #0002}.map img{width:100%;display:block}
-.pin{position:absolute;width:12%;height:12%;transform:translate(-50%,-50%);border-radius:50%;cursor:pointer}
+.pin{position:absolute;width:12%;height:12%;transform:translate(-50%,-50%);border-radius:50%;cursor:pointer}.pin.new{width:auto;height:auto;background:var(--terra);color:#fff;font:600 12px Inter,sans-serif;padding:5px 9px;border-radius:99px;border:2px solid #fff;box-shadow:0 2px 8px #0005;white-space:nowrap}
+.lbl{position:absolute;bottom:6px;right:8px;background:#0008;color:#fff;font-size:12px;padding:2px 7px;border-radius:6px}.ph{position:relative}
 .pop{position:fixed;inset:0;background:#000b;display:none;align-items:flex-end;justify-content:center;z-index:9}.pop.on{display:flex}
 .sheet{background:#fff;width:100%;max-width:520px;border-radius:24px 24px 0 0;overflow:hidden;animation:up .25s}
 @keyframes up{from{transform:translateY(100%)}}.sheet .ph{height:260px;background-size:cover;background-position:center}
@@ -35,47 +36,56 @@ section{padding:34px 0 8px}section>h2{padding:0 20px;font-size:1.7rem;margin-bot
 footer{padding:30px 20px 50px;text-align:center;color:#666;font-size:13px;line-height:1.6}
 @media(min-width:900px){.day{flex-basis:360px}.grid{grid-template-columns:repeat(4,1fr);max-width:1200px;margin:auto}.map{max-width:760px;margin:auto}}
 </style></head><body>
-<header class="hero"><h1>Taormina,<br><i>Mom Turns 60</i></h1><p>Sep 16 – 22, 2027 · Sicily</p>
-<div class="chips"><span class="chip">🏡 Villa with pool</span><span class="chip">✈️ Nonstop from JFK</span><span class="chip">👨‍👩‍👧‍👦 5 of us</span></div></header>
+<header class="hero"><p style="letter-spacing:3px;text-transform:uppercase;font-size:.85rem">Sicily · September 2027</p><h1>Six Beautiful Days</h1><p>Sep 16–21 in Taormina, flying home Sep 22</p>
+<div class="chips"><span class="chip">🏡 Villa with pool</span><span class="chip">✈️ Nonstop from JFK</span><span class="chip">🚤 Boat · 🍷 Etna · 🎾 Tennis</span></div></header>
 
 <section><h2>The Week</h2><div class="rail" id="days"></div><div class="dots" id="dots"></div></section>
 
-<section><h2>The Big Stuff</h2><div class="grid" id="big"></div></section>
+<section><h2>The Short List</h2><div class="grid" id="big"></div></section>
 
-<section><h2>Where We Eat</h2><div class="map"><img src="img/map.png" alt="Taormina Map"><div id="pins"></div></div>
-<p style="text-align:center;color:#888;font-size:.85rem;margin-top:10px">Tap a pin</p></section>
+<section><h2>Getting There</h2><div class="grid" id="go"></div></section>
 
-<footer>Example plan, only the villa is booked · Est = estimate · Photos: Airbnb, Wikimedia Commons</footer>
+<section><h2>On the Map</h2><div class="map"><img src="img/map.png" alt="Taormina Map"><div id="pins"></div></div>
+<p style="text-align:center;color:#888;font-size:.85rem;margin-top:10px">Tap a pin · Etna winery is off the map, in Milo</p></section>
+
+<footer>Example plan, only the villa is booked · Est = estimate, nothing is priced yet<br>Beach club and tennis photos are stand-ins, labelled · Photos: Airbnb, Wikimedia Commons</footer>
 
 <div class="pop" id="pop" onclick="if(event.target===this)cl()"><div class="sheet"><button class="x" onclick="cl()">✕</button><div class="ph" id="pph"></div><div class="tx"><h3 id="pt"></h3><ul id="pl"></ul></div></div></div>
 <script>
-const E='<span class="est">Est</span>';const C='<span class="est" style="background:#dcefe3;color:#1f6b3a">2026 Price</span>';
+const E='<span class="est">Est</span>';
 const D=[
-["Thu","16","Land & Pool","villa-a04","✈️🚐🏊","Settle in",["Land 7:55 AM (Catania time)","Pick up the van","Pool + nap","Sunset at Piazza IX Aprile","🍝 Osteria Nero d'Avola"]],
-["Fri","17","Old Town","teatro-antico-etna","🏛️🍧🍸","Teatro Antico + Corso",["Teatro Antico","Corso Umberto + Villa Comunale","🍧 Granita at Bam Bar","🍸 Morgana Bar","🍷 Vineria Modì"]],
-["Sat","18","Boat Day","boat-grotta","🚤🐚🏝️","Grottos + Isola Bella",["Private boat, 2 hours","Grotta Azzurra","Baia delle Sirene + Isola Bella","Swim at Capo Taormina","🐟 La Capinera"]],
-["Sun","19","Mount Etna","taormina-etna-1993","🌋🚙🍷","Craters + wine",["4x4 Etna tour, about 5 hours","Lava fields + craters","Wine tasting + lunch","🍰 Tiramisù (which one? TBD)"]],
-["Mon","20","Beach + Birthday","r-stgeorge","🏖️🎂🥂","Mom's 60th dinner",["Beach club day in Mazzarò","Cable car down to the sea","🎂 St. George by Heinz Beck","Backup: Otto Geleng","Move to her real birthday if it's this week"]],
-["Tue","21","Castelmola","castelmola","⛰️🍸🌅","Hilltop views",["Castelmola + Bar Turrisi","Lunch at Al Saraceno","Last swim: villa or Lido Spisone","✨ Principe Cerami","🥃 Caffè Wunderbar"]],
-["Wed","22","Fly Home","isola-bella-2","🧳✈️","Arrivederci",["Leave villa 6:45 AM","Return van at CTA","DL 245, 9:55 AM (Catania time)","Land JFK 2:20 PM (NY time) "+E]]];
+["Thu","16","Arrival & Taormina","villa-a04","✈️🏊🍝","Check in, pool, easy dinner",["Land 7:55 AM (Catania time)","Pick up the van, drive to the villa","Check in + pool","Stroll into town","🍝 Easy Sicilian dinner"],""],
+["Fri","17","Mazzarò Beach Club","mazzaro-1","🏖️☀️🍹","A slow beach day",["Villa Sant'Andrea beach, if open to non-residents","Or Lido La Pigna","Sunbeds, swim, lunch by the water"],"Mazzarò Bay · stand-in photo"],
+["Sat","18","Private Boat + Villa Dinner","boat-grotta","🚤🐚👨‍🍳","Isola Bella by sea, chef at home",["Private cruise around Isola Bella","Mazzarò Bay + sea caves","Swim stops","👨‍🍳 Private-chef Sicilian dinner at the villa"],""],
+["Sun","19","Mount Etna Wine Country","taormina-etna-1993","🌋🍷🚐","Barone di Villagrande, Milo",["Private driver to Milo","Vineyard visit at Barone di Villagrande","Tasting + long lunch","Back to the villa"],"Etna from Taormina"],
+["Mon","20","Tennis + The White Lotus","r-principecerami","🎾🍸🏛️","Morning tennis, San Domenico lunch",["🎾 Morning tennis, Taormina Sporting Club","🍽️ Lunch at Anciovi, San Domenico Palace","Pool access not included"],"San Domenico Palace"],
+["Tue","21","Isola Bella + Farewell Dinner","isola-bella-1","🏝️🛍️🥂","Last beach day",["Final beach-club day at Isola Bella","Explore town","🥂 Farewell dinner"],""],
+["Wed","22","Fly Home","isola-bella-2","🧳✈️","Arrivederci",["Leave the villa early","Return the van at Catania Airport","DL 245, 9:55 AM (Catania time)","Land JFK 2:20 PM (NY time) "+E],""]];
 const B=[
-{c:"fly",h:"✈️ Out · DL 244",big:"JFK → CTA",p:"Wed Sep 15 · 4:45 PM NY → 7:55 AM Catania (local times)",t:"DL 244 · Delta Nonstop",i:"isola-bella-1",l:["Wed Sep 15, 4:45 PM NY time, JFK T4","Lands Thu Sep 16, 7:55 AM Catania time","Boeing 767-300","$860–$1,284 per person "+E,"$4,300–$6,400 for 5 "+E]},
-{c:"fly",h:"✈️ Home · DL 245",big:"CTA → JFK",p:"Wed Sep 22 · 9:55 AM Catania → 2:20 PM NY "+E,t:"DL 245 · Delta Nonstop",i:"isola-bella-2",l:["Wed Sep 22, 9:55 AM Catania time","Lands 2:20 PM NY time "+E,"Leave villa 6:45 AM","Delta may retime before travel"]},
-{i:"isola-bella-3",h:"🚐 The Van",p:"7-seater · €300–€750 "+E,t:"Rental Van",l:["Pick up + return at Catania Airport","VW Caravelle-style van for bags","€300–€750 for 6 days "+E,"Europcar Caravelle from €47.50/day "+C,"🚫 Don't drive into the old town (ZTL)","🅿️ Lumbi €30/day · Porta Catania €34/day "+C,"Ask host about villa parking"]},
-{i:"grotta-inside",h:"🚤 Boat Day",p:"Private · €399.99 "+C,t:"Private Boat",l:["Isola Bella Boat Club","€399.99 · 2 hours · up to 8 "+C,"Moët + transfer included","Grotta Azzurra · Isola Bella · swim stop"]},
-{i:"mazzaro-1",h:"🏖️ Beach Clubs",p:"Mazzarò + Isola Bella · not priced",t:"Beach Clubs",l:["Lido La Pigna","Lido Mendolia","Villa Sant'Andrea Beach","Lido Sabbie d'Oro","Lido Spisone","Sunbeds not priced, book ahead"]},
-{i:"taormina-etna-1993",h:"🌋 Etna Day",p:"$133–$136 per person "+C,t:"Mount Etna",l:["4x4 tour, about 5 hours, Taormina pickup","Craters, lava, wine + lunch","$133–$136 per person, GetYourGuide "+C,"Or drive to Rifugio Sapienza + cable car"]},
-{c:"bday",w:1,h:"🎂 Mom's 60th",p:"St. George by Heinz Beck · Mon Sep 20",t:"Birthday Dinner",i:"r-stgeorge",l:["St. George by Heinz Beck ⭐⭐","Palm terrace, The Ashbee Hotel","Backup: Otto Geleng","Ask for terrace + birthday dessert","Move to her real birthday if it's this week"]},
-{w:1,i:"granita",h:"🍸 Bars",p:"Spritz to nightcap",t:"Bars",l:["Morgana Bar","Caffè Wunderbar","Bam Bar","Bar Turrisi (Castelmola)","Re di Bastoni"]}];
-const R={A:["La Capinera","r-capinera","By the sea · Spisone","Sat dinner"],B:["Otto Geleng","r-ottogeleng","Grand Hotel Timeo ⭐","Birthday backup"],C:["St. George by Heinz Beck","r-stgeorge","The Ashbee ⭐⭐","🎂 Mon dinner"],D:["Principe Cerami","r-principecerami","San Domenico Palace ⭐","Tue dinner"],E:["Vineria Modì","corso-umberto","Via Calapitrulli","Fri dinner"],F:["Tiramisù","cannoli","Near Porta Catania","Sun dinner · which one? TBD"],G:["Osteria Nero d'Avola","corso-umberto","Piazza San Domenico","Thu dinner"],H:["Al Saraceno","r-saraceno","Etna + bay views","Tue lunch"],V:["Your Villa","villa-a07","Via Madonna Delle Grazie","Home base"]};
-const P={A:[74.8,19.1],B:[59.2,66.7],C:[56.3,51.5],D:[31.3,77.8],E:[50.4,64.8],F:[28.7,69],G:[38.1,70.1],H:[36.5,57.8],V:[43,80.8]};
+{i:"villa-a07",h:"👨‍🍳 Private Chef",p:"Sicilian dinner at the villa",t:"Private Chef",l:["Danilo Ambrogio","Alt: Chef Massimo, Sicilian Cooking Class","Seafood menu","Wine pairing","Service + cleanup included"]},
+{i:"grotta-inside",h:"🚤 Private Boat",p:"Private for six",t:"Private Boat",l:["Isola Bella Boat","Private for six, with skipper","Shade + swim stops","Flexible date for sea conditions"]},
+{i:"taormina-etna-1993",h:"🍷 Etna Winery",p:"Barone di Villagrande",t:"Etna Winery",l:["Barone di Villagrande, Milo","Guided tasting","Vineyard lunch","Private driver"],lb:"Etna view"},
+{i:"mazzaro-2",h:"🏖️ Beach Clubs",p:"Mazzarò + Isola Bella",t:"Beach Clubs",l:["Villa Sant'Andrea / Lido Villeggiatura","Confirm outside-guest access","Lido La Pigna","Isola Bella"],lb:"Stand-in: Mazzarò"},
+{i:"r-principecerami",h:"🍸 White Lotus Lunch",p:"Anciovi, San Domenico Palace",t:"White Lotus Lunch",l:["Anciovi at San Domenico Palace","Table for six","Pool access not included"],lb:"San Domenico Palace"},
+{i:"teatro-antico-etna",h:"🎾 Tennis",p:"Taormina Sporting Club",t:"Tennis",l:["Taormina Sporting Club","Courts","Racket rental","Book a morning slot"],lb:"General Taormina view"}];
+const G=[
+{c:"fly",h:"✈️ Out · DL 244",big:"JFK → CTA",p:"Wed Sep 15 · 4:45 PM (NY time) → Thu 7:55 AM (Catania time)",t:"DL 244 · Delta Nonstop",i:"isola-bella-1",l:["Wed Sep 15, 4:45 PM (NY time), JFK T4","Lands Thu Sep 16, 7:55 AM (Catania time)","Boeing 767-300","$860–$1,284 per person "+E]},
+{c:"fly",h:"✈️ Home · DL 245",big:"CTA → JFK",p:"Wed Sep 22 · 9:55 AM (Catania time) → 2:20 PM (NY time) "+E,t:"DL 245 · Delta Nonstop",i:"isola-bella-2",l:["Wed Sep 22, 9:55 AM (Catania time)","Lands 2:20 PM (NY time) "+E,"Delta may retime before travel"]},
+{w:1,i:"isola-bella-3",h:"🚐 The Van",p:"7-seater · €300–€750 "+E,t:"Rental Van",l:["Pick up + return at Catania Airport","VW Caravelle-style van for bags","€300–€750 for 6 days "+E,"🚫 Don't drive into the old town (ZTL)","Ask host about villa parking"]}];
+const R={V:["🏡 Villa",43,80.8,"villa-a07",["Your Villa","Via Madonna Delle Grazie","Home base"]],
+S:["🍸 San Domenico",31.3,73,"r-principecerami",["San Domenico Palace","Anciovi lunch, Mon Sep 20"]],
+M:["🏖️ Mazzarò",84,58,"mazzaro-1",["Mazzarò Bay","Villa Sant'Andrea + Lido La Pigna","Fri Sep 17"]],
+I:["🏝️ Isola Bella",86,77,"isola-bella-1",["Isola Bella","Boat Sat Sep 18 · beach Tue Sep 21"]],
+T:["🍝 Town",50,64.8,"corso-umberto",["Corso Umberto","Dinners Thu + Tue"]]};
 const $=s=>document.getElementById(s);
 function op(t,i,l){$('pt').innerHTML=t;$('pph').style.backgroundImage=`url(img/${i}.jpg)`;$('pl').innerHTML=l.map(x=>`<li>${x}</li>`).join('');$('pop').classList.add('on')}
 function cl(){$('pop').classList.remove('on')}
-$('days').innerHTML=D.map((d,k)=>`<div class="day" onclick="op(D[${k}][2]+' · '+D[${k}][0]+' Sep '+D[${k}][1],D[${k}][3],D[${k}][6])"><div class="ph" style="background-image:url(img/${d[3]}.jpg)"><div class="dt">${d[0]}<b>${d[1]}</b></div></div><div class="tx"><h3>${d[2]}</h3><p>${d[5]}</p><div class="ic">${d[4]}</div></div></div>`).join('');
+const L=t=>t?`<span class="lbl">${t}</span>`:'';
+$('days').innerHTML=D.map((d,k)=>`<div class="day" onclick="op(D[${k}][2]+' · '+D[${k}][0]+' Sep '+D[${k}][1],D[${k}][3],D[${k}][6])"><div class="ph" style="background-image:url(img/${d[3]}.jpg)"><div class="dt">${k<6?'0'+(k+1):d[0]}<b>${d[1]}</b></div>${L(d[7])}</div><div class="tx"><h3>${d[2]}</h3><p>${d[5]}</p><div class="ic">${d[4]}</div></div></div>`).join('');
 $('dots').innerHTML=D.map((_,k)=>`<i class="${k?'':'on'}"></i>`).join('');
 $('days').addEventListener('scroll',e=>{const r=e.target,k=Math.round(r.scrollLeft/(r.scrollWidth-r.clientWidth)*(D.length-1));[...$('dots').children].forEach((d,j)=>d.className=j===k?'on':'')});
-$('big').innerHTML=B.map((b,k)=>b.c==='fly'?`<div class="card wide" onclick="op(B[${k}].t,B[${k}].i,B[${k}].l)"><div class="fly"><h3>${b.h}</h3><div class="big">${b.big}</div><p>${b.p}</p></div></div>`:b.c==='bday'?`<div class="card wide" onclick="op(B[${k}].t,B[${k}].i,B[${k}].l)"><div class="bday"><h2>${b.h}</h2><p>${b.p}</p></div></div>`:`<div class="card${b.w?" wide":""}" onclick="op(B[${k}].t,B[${k}].i,B[${k}].l)"><div class="ph" style="background-image:url(img/${b.i}.jpg)"></div><div class="tx"><h3>${b.h}</h3><p>${b.p}</p></div></div>`).join('');
-$('pins').innerHTML=Object.entries(P).map(([k,[x,y]])=>`<div class="pin" style="left:${x}%;top:${y}%" onclick="op(R.${k}[0],R.${k}[1],[R.${k}[2],R.${k}[3]])"></div>`).join('');
+const card=(A,n)=>A.map((b,k)=>b.c==='fly'?`<div class="card wide" onclick="op(${n}[${k}].t,${n}[${k}].i,${n}[${k}].l)"><div class="fly"><h3>${b.h}</h3><div class="big">${b.big}</div><p>${b.p}</p></div></div>`:`<div class="card${b.w?" wide":""}" onclick="op(${n}[${k}].t,${n}[${k}].i,${n}[${k}].l)"><div class="ph" style="background-image:url(img/${b.i}.jpg)">${L(b.lb)}</div><div class="tx"><h3>${b.h}</h3><p>${b.p}</p></div></div>`).join('');
+$('big').innerHTML=card(B,'B');$('go').innerHTML=card(G,'G');
+$('pins').innerHTML=Object.entries(R).map(([k,r])=>`<div class="pin new" style="left:${r[1]}%;top:${r[2]}%" onclick="op(R.${k}[4][0],R.${k}[3],R.${k}[4].slice(1))">${r[0]}</div>`).join('');
 document.addEventListener('keydown',e=>e.key==='Escape'&&cl());
 </script></body></html>
