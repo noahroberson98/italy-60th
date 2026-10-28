@@ -77,7 +77,7 @@ section{margin:22px 0}
 <section><h2>Quick Picks</h2><div class="quick" id="quick"></div></section>
 <section><h2>All Options</h2>
 <div class="chips" id="filters"><button class="chip on" data-f="all">All</button><button class="chip" data-f="cp">Capri + Praiano</button><button class="chip" data-f="ca">Capri + Amalfi</button><button class="chip" data-f="cpo">Capri + Positano</button><button class="chip" data-f="cn">Capri + Nerano</button><button class="chip" data-f="ac">Amalfi Coast Two Towns</button><button class="chip" data-f="one">One Home</button><button class="chip" data-f="sa">Sardinia</button><button class="chip" data-f="si">Sicily</button><button class="chip" data-f="ss">Sardinia + Sicily</button></div>
-<div class="chips" id="sorts"><button class="chip on" data-s="desc">Price High–Low</button><button class="chip" data-s="asc">Price Low–High</button><button class="chip" data-s="grade">Grade A–F</button></div>
+<div class="chips" id="sorts"><button class="chip" data-s="desc">Price High–Low</button><button class="chip" data-s="asc">Price Low–High</button><button class="chip on" data-s="grade">Grade A–F</button></div>
 <div class="picker"><label>Hold a Stay (Any Location)<select id="pA"></select></label></div>
 <p class="pmsg" id="pmsg"></p>
 <div class="holdbar" id="holdbar"><span id="holdTxt"></span><button id="holdX" aria-label="Release hold">&times;</button></div>
@@ -103,7 +103,7 @@ const DATA={"asOf": "Oct 27, 2026", "trip": {"title": "The Big 60th: Italy", "st
 const $=(s,e=document)=>e.querySelector(s),$$=(s,e=document)=>[...e.querySelectorAll(s)];
 window.fmt0=null;const fmt2=n=>"$"+n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});const fmt=fmt2,fmtOld=n=>"$"+(Math.round(n*100)%100?n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}):Math.round(n).toLocaleString("en-US"));
 const INI={Capri:"CA",Ravello:"RA",Praiano:"PR",Amalfi:"AM",Positano:"PO",Nerano:"NE"};const BADGE=o=>o.stays.some(z=>z.island)?(o.stays.length>1?"SS":(o.stays[0].island==="Sardinia"?"SA":"SI")):INI[o.stays.find(z=>z.town!=="Capri")?.town||o.stays[0].town];
-window.fmt0=fmt;let filter="all",sort="desc",list=[];
+window.fmt0=fmt;let filter="all",sort="grade",list=[];
 const byId=id=>id===DATA.pick.id?DATA.pick:id===DATA.splurge.id?DATA.splurge:DATA.options.find(o=>o.id===id);
 let held="";
 function stayHtml(s,leg){
@@ -147,7 +147,7 @@ const LOCS=["Capri","Amalfi Coast","Sardinia","Sicily"];
 function render(){
  list=DATA.options.filter(o=>filter==="all"||o.filter===filter).filter(o=>!held||VK(o).has(held));
  if((filter==="all"||filter===DATA.pick.filter)&&(!held||VK(DATA.pick).has(held)))list.push(DATA.pick);
- list.sort((a,b)=>sort==="asc"?a.total-b.total:sort==="grade"?(a.g.s-b.g.s)||b.total-a.total:b.total-a.total);
+ list.sort((a,b)=>sort==="asc"?a.total-b.total:sort==="grade"?a.g.l.localeCompare(b.g.l)||b.total-a.total:b.total-a.total);
  $("#track").innerHTML=list.map(o=>`<article class="card" id="opt-${o.id}">${cardInner(o)}</article>`).join("");
  $("#dots").innerHTML=list.map((o,i)=>`<button class="dot" data-i="${i}" aria-label="Option ${i+1}"></button>`).join("");
  bindCards();
